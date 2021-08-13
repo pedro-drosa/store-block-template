@@ -1,36 +1,32 @@
-import React,{useState} from 'react';
-import { TimeSplit } from './typings/global';
-import { tick, getTwoDaysFromNow } from './utils/time';
+import React, { useState } from 'react'
+import { TimeSplit } from './typings/global'
+import { tick, getTwoDaysFromNow } from './utils/time'
 import { useCssHandles } from 'vtex.css-handles'
-import { FormattedMessage } from 'react-intl'
-
-
-const DEFAULT_TA8RGET_DATE = getTwoDaysFromNow();
-const CSS_HANDLES = ['container', 'countdown', 'title'];
 
 interface CountdownProps {
-  title: string;
-  targetDate: string;
+  targetDate: string
 }
 
-const Countdown: StorefrontFunctionComponent<CountdownProps> = ({ targetDate = DEFAULT_TA8RGET_DATE, title }) => {
+const DEFAULT_TARGET_DATE = getTwoDaysFromNow()
 
+const CSS_HANDLES = ['countdown']
+
+const Countdown: StorefrontFunctionComponent<CountdownProps> = ({
+  targetDate = DEFAULT_TARGET_DATE,
+}) => {
   const [timeRemaining, setTime] = useState<TimeSplit>({
     hours: '00',
     minutes: '00',
     seconds: '00',
   })
 
-  const handles = useCssHandles(CSS_HANDLES);
-  const titleText = title || <FormattedMessage id="countdown.title" />
-  tick(targetDate, setTime);
+  const handles = useCssHandles(CSS_HANDLES)
+
+  tick(targetDate, setTime)
 
   return (
-    <div className={`${handles.container} t-heading-2 fw3 w-100 c-muted-1`}>
-      <div className={`${handles.title} db tc`}>{titleText}</div>
-      <div className={`${handles.countdown} db tc`}>
-        {`${timeRemaining.hours}:${timeRemaining.minutes}:${timeRemaining.seconds}`}
-      </div>
+    <div className={`${handles.countdown} c-muted-1 db tc`}>
+      <h1>{`${timeRemaining.hours}:${timeRemaining.minutes}:${timeRemaining.seconds}`}</h1>
     </div>
   )
 }
@@ -41,13 +37,13 @@ Countdown.schema = {
   type: 'object',
   properties: {
     title: {
-      title: 'Sou um título',
+      title: 'I am a title',
       type: 'string',
       default: null,
     },
     targetDate: {
-      title: 'Data final',
-      description: 'Data final utilizada no contador',
+      title: 'Final date',
+      description: 'Final date used in the countdown',
       type: 'string',
       default: null,
     },
